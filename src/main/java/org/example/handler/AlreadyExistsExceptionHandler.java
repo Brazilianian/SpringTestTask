@@ -1,6 +1,6 @@
 package org.example.handler;
 
-import org.example.dto.ValidationExceptionResponseDto;
+import org.example.dto.exception.ValidationExceptionResponseDto;
 import org.example.exception.ValidationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

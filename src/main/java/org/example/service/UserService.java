@@ -3,16 +3,14 @@ package org.example.service;
 import org.example.domain.User;
 import org.example.exception.ValidationException;
 import org.example.exception.alreadyexists.UserAlreadyExistsException;
+import org.example.exception.nocontent.UserNoContentException;
 import org.example.exception.wasnotfound.UserWasNotFoundException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -58,7 +56,8 @@ public class UserService {
      * Update user info by email
      */
     public User updateUserByEmail(User user) {
-        User userToUpdate = getUserByEmail(user.getEmail());
+        User userToUpdate = findByEmail(user.getEmail())
+                .orElseThrow(() -> new UserNoContentException(String.format("Can't update user. User with email %s was not found", user.getEmail())));
 
         return updateUser(userToUpdate, user);
     }
@@ -67,47 +66,30 @@ public class UserService {
      * Update all fields of user by email (including old email)
      */
     public User updateWholeUser(User user, String email) {
-        if (!user.getEmail().equals(email) && findByEmail(user.getEmail()) != null) {
-            throw new UserAlreadyExistsException(String.format("User with email %s already exists", user.getEmail()));
+        if (findByEmail(user.getEmail()).isEmpty()) {
+            throw new UserNoContentException(String.format("Can't update user. User with email %s was not found", user.getEmail()));
         }
 
-        User userToUpdate = getUserByEmail(email);
+        // If new email already exists
+        if (!user.getEmail().equals(email) && findByEmail(email).isPresent()) {
+            throw new ValidationException(String.format("User with email %s already exists", user.getEmail()));
+        }
+
+        User userToUpdate = findByEmail(email).get();
 
         return updateUser(userToUpdate, user);
     }
 
-    private User findByEmail(String email) {
-        return users.stream().filter(u -> u.getEmail().equals(email)).findFirst().orElse(null);
-    }
-
-    public boolean deleteUserByEmail(String email) {
-        users = users.stream()
-                .filter(u -> !u.getEmail().equals(email))
-                .toList();
-
-        return true;
-    }
-
     public User getUserByEmail(String email) {
-        return users.stream()
-                .filter(u -> u.getEmail().equals(email))
-                .findFirst()
+        return findByEmail(email)
                 .orElseThrow(() -> new UserWasNotFoundException(String.format("User with email %s was not found", email)));
     }
 
-    private User updateUser(User userToUpdate, User user) {
-        if (isAgeInvalid(user)) {
-            throw new ValidationException(String.format("Failed to create new user. User age can't be less than %d", userSmallestAge));
-        }
+    public boolean deleteUserByEmail(String email) {
+        User user = findByEmail(email)
+                .orElseThrow(() -> new UserNoContentException(String.format("Failed to delete user. User with email %s was not found", email)));
 
-        users.removeIf(u -> u.getEmail().equals(userToUpdate.getEmail()));
-        users.add(user);
-
-        return user;
-    }
-
-    private boolean isAgeInvalid(User user) {
-        return Period.between(user.getBirthday(), LocalDate.now()).getYears() <= userSmallestAge;
+        return users.remove(user);
     }
 
     public List<User> getUsersByBirthdayRange(LocalDate from, LocalDate to) {
@@ -118,5 +100,26 @@ public class UserService {
 
     public List<User> getAll() {
         return users;
+    }
+
+    private Optional<User> findByEmail(String email) {
+        return users.stream()
+                .filter(u -> u.getEmail().equals(email))
+                .findFirst();
+    }
+
+    private User updateUser(User userToUpdate, User user) {
+        if (isAgeInvalid(user)) {
+            throw new ValidationException(String.format("Failed to update user. User age can't be less than %d", userSmallestAge));
+        }
+
+        users.removeIf(u -> u.getEmail().equals(userToUpdate.getEmail()));
+        users.add(user);
+
+        return user;
+    }
+
+    private boolean isAgeInvalid(User user) {
+        return Period.between(user.getBirthday(), LocalDate.now()).getYears() <= userSmallestAge;
     }
 }

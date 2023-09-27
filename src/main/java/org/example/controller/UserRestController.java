@@ -27,16 +27,19 @@ public class UserRestController {
     private final UserService userService;
 
     @GetMapping
+    @ResponseBody
     public List<UserDto> getAllUsers() {
         return userService.getAll().stream().map(userMapper::fromObjectToDto).toList();
     }
 
     @GetMapping("/email/{email}")
+    @ResponseBody
     public UserDto getUser(@PathVariable String email) {
         return userMapper.fromObjectToDto(userService.getUserByEmail(email));
     }
 
     @GetMapping("/birthday")
+    @ResponseBody
     public List<UserDto> getUsersByBirthday(@RequestBody @Valid DateRangeDto dateRange,
                                             BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -56,6 +59,7 @@ public class UserRestController {
     }
 
     @PostMapping
+    @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
     public UserDto createUser(@RequestBody @Valid UserDto userDto,
                               BindingResult bindingResult) {
@@ -69,6 +73,7 @@ public class UserRestController {
     }
 
     @PutMapping
+    @ResponseBody
     public UserDto updateUser(@RequestBody @Valid UserDto userDto,
                               BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -81,6 +86,7 @@ public class UserRestController {
     }
 
     @PutMapping("/email/{email}")
+    @ResponseBody
     public UserDto updateUserAllFields(@RequestBody @Valid UserDto userDto,
                                        @PathVariable String email,
                                        BindingResult bindingResult) {
@@ -94,6 +100,7 @@ public class UserRestController {
     }
 
     @DeleteMapping("/email/{email}")
+    @ResponseBody
     public boolean deleteUser(@PathVariable String email) {
         return userService.deleteUserByEmail(email);
     }

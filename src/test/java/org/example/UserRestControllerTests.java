@@ -2,7 +2,6 @@ package org.example;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.controller.UserRestController;
-import org.example.domain.User;
 import org.example.dto.UserDto;
 import org.example.mapper.UserMapper;
 import org.example.service.UserService;
@@ -16,12 +15,11 @@ import java.time.LocalDate;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(UserRestController.class)
-public class UserValidationTests {
+public class UserRestControllerTests {
     private static final String ENDPOINT_PATH = "/api/v1/users";
 
     @Autowired

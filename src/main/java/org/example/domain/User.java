@@ -4,6 +4,7 @@ import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -52,6 +53,19 @@ public class User {
 
         public User build() {
             return new User(email, firstName, lastName, birthday, address, phoneNumber);
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Builder builder = (Builder) o;
+            return Objects.equals(email, builder.email);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(email);
         }
     }
 }
