@@ -5,7 +5,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import org.example.domain.User;
-import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
 

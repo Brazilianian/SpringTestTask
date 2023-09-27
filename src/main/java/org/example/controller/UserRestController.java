@@ -1,10 +1,9 @@
 package org.example.controller;
 
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.example.domain.User;
-import org.example.dto.DateRangeDto;
+import org.example.dto.BirthdayFilterDto;
 import org.example.dto.UserDto;
 import org.example.exception.ValidationException;
 import org.example.mapper.UserMapper;
@@ -40,18 +39,17 @@ public class UserRestController {
 
     @GetMapping("/birthday")
     @ResponseBody
-    public List<UserDto> getUsersByBirthday(@RequestBody @Valid DateRangeDto dateRange,
+    public List<UserDto> getUsersByBirthday(@RequestBody @Valid BirthdayFilterDto birthdayFilterDto,
                                             BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             Map<String, String> errors = ValidationUtil.getErrors(bindingResult);
             throw new ValidationException("Failed to find users by birthday", errors);
         }
 
-        if (!dateRange.isRangeValid()) {
-            throw new ValidationException("Failed to find users by birthday. From must be earlier than To");
-        }
-
-        List<User> users = userService.getUsersByBirthdayRange(dateRange.from(), dateRange.to());
+        List<User> users = userService.getUsersByBirthdayRange(
+                birthdayFilterDto.dateRange().from(),
+                birthdayFilterDto.dateRange().to()
+        );
 
         return users.stream()
                 .map(userMapper::fromObjectToDto)

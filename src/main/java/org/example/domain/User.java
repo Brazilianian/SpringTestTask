@@ -1,7 +1,6 @@
 package org.example.domain;
 
 import lombok.*;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
 import java.util.Objects;

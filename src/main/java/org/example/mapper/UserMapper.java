@@ -4,8 +4,6 @@ import org.example.domain.User;
 import org.example.dto.UserDto;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-
 @Service
 public class UserMapper {
 

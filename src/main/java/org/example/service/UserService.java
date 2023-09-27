@@ -2,7 +2,6 @@ package org.example.service;
 
 import org.example.domain.User;
 import org.example.exception.ValidationException;
-import org.example.exception.alreadyexists.UserAlreadyExistsException;
 import org.example.exception.nocontent.UserNoContentException;
 import org.example.exception.wasnotfound.UserWasNotFoundException;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,12 +9,15 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class UserService {
-    private List<User> users = new ArrayList<>() {
+    private final List<User> users = new ArrayList<>() {
         {
             add(new User.Builder("email1@gmail.com", "first name 1", "last name 2", LocalDate.of(2000, 1, 1))
                     .phoneNumber("11111111")
