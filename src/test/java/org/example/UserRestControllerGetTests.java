@@ -14,7 +14,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.time.LocalDate;
 import java.util.List;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.hamcrest.Matchers.containsString;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class UserRestControllerGetTests extends AbstractTest {
@@ -44,7 +45,7 @@ public class UserRestControllerGetTests extends AbstractTest {
     @Test
     @DisplayName("Should successfully find user by email")
     public void shouldFindUserByEmail() throws Exception {
-        String emailOfUserToFind = "email1@gmail.com";
+        String emailOfUserToFind = "email2@gmail.com";
         MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders
                         .get(ENDPOINT_PATH + "/email/" + emailOfUserToFind)
                         .accept(MediaType.APPLICATION_JSON))
@@ -68,20 +69,17 @@ public class UserRestControllerGetTests extends AbstractTest {
 
     @Test
     @DisplayName("Should find users by birthday date range")
-    // FIXME: 27.09.23 media type problem
     public void shouldFindUsersByBirthdayRange() throws Exception {
         BirthdayFilterDto birthdayFilterDto = new BirthdayFilterDto(new DateRange(
                 LocalDate.of(2000, 1, 1),
                 LocalDate.of(2005, 1, 1)
         ));
 
-        String json = mapToJson(birthdayFilterDto);
+        String json = super.mapToJson(birthdayFilterDto);
 
-        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders
-                        .post(ENDPOINT_PATH + "/birthday")
-                        .accept(MediaType.APPLICATION_JSON_VALUE)
+        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.post(ENDPOINT_PATH + "/birthday")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(json))
-                .andDo(print())
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -92,5 +90,22 @@ public class UserRestControllerGetTests extends AbstractTest {
                             && userDto.birthday().isBefore(birthdayFilterDto.dateRange().to())
             );
         }
+    }
+
+    @Test
+    @DisplayName("Should to fail to find users by birthday date range because wrong range")
+    public void shouldFailFindUsersByBirthdayRange() throws Exception {
+        BirthdayFilterDto birthdayFilterDto = new BirthdayFilterDto(new DateRange(
+                LocalDate.of(2005, 1, 1),
+                LocalDate.of(2000, 1, 1)
+        ));
+
+        String json = super.mapToJson(birthdayFilterDto);
+
+        mvc.perform(MockMvcRequestBuilders.post(ENDPOINT_PATH + "/birthday")
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(json))
+                .andExpect(status().isUnprocessableEntity())
+                .andExpect(content().string(containsString("Invalid range of date. From must be earlier than To")));
     }
 }

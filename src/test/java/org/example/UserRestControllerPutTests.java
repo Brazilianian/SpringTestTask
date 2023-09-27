@@ -28,7 +28,7 @@ public class UserRestControllerPutTests extends AbstractTest {
     @Test
     @DisplayName("Should to update user info")
     public void shouldToUpdateUser() throws Exception {
-        UserDto userDto = new UserDto("email1@gmail.com", "newFirstName", "newLastName", LocalDate.of(2000, 1, 1),
+        UserDto userDto = new UserDto("email3@gmail.com", "newFirstName", "newLastName", LocalDate.of(2000, 1, 1),
                 null, null);
 
         String inputJson = super.mapToJson(userDto);
@@ -67,7 +67,7 @@ public class UserRestControllerPutTests extends AbstractTest {
     public void shouldToUpdateUserAllFields() throws Exception {
         UserDto userDto = new UserDto("email@gmail.com", "newFirstName", "newLastName", LocalDate.of(2000, 1, 1),
                 null, null);
-        String emailOfUserToUpdate = "email1@gmail.com";
+        String emailOfUserToUpdate = "email3@gmail.com";
 
         String inputJson = super.mapToJson(userDto);
         MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders
@@ -95,7 +95,7 @@ public class UserRestControllerPutTests extends AbstractTest {
     public void shouldToFailUpdateUserAllFieldsBecauseAge() throws Exception {
         UserDto userDto = new UserDto("email@gmail.com", "newFirstName", "newLastName", LocalDate.of(2020, 1, 1),
                 null, null);
-        String emailOfUserToUpdate = "email1@gmail.com";
+        String emailOfUserToUpdate = "email2@gmail.com";
 
         String inputJson = super.mapToJson(userDto);
         mvc.perform(MockMvcRequestBuilders
