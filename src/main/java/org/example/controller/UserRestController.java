@@ -2,6 +2,7 @@ package org.example.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.example.domain.DateRange;
 import org.example.domain.User;
 import org.example.dto.BirthdayFilterDto;
 import org.example.dto.UserDto;
@@ -13,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -37,7 +39,8 @@ public class UserRestController {
         return userMapper.fromObjectToDto(userService.getUserByEmail(email));
     }
 
-    @GetMapping("/birthday")
+    @PostMapping(value = "/birthday",
+            produces = "application/json")
     @ResponseBody
     public List<UserDto> getUsersByBirthday(@RequestBody @Valid BirthdayFilterDto birthdayFilterDto,
                                             BindingResult bindingResult) {

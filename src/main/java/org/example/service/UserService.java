@@ -2,6 +2,7 @@ package org.example.service;
 
 import org.example.domain.User;
 import org.example.exception.ValidationException;
+import org.example.exception.alreadyexists.UserAlreadyExistsException;
 import org.example.exception.nocontent.UserNoContentException;
 import org.example.exception.wasnotfound.UserWasNotFoundException;
 import org.springframework.beans.factory.annotation.Value;
@@ -48,6 +49,10 @@ public class UserService {
             throw new ValidationException("Failed to create new user", new HashMap<>() {{
                 put("birthday", "User age can't be less than " + userSmallestAge);
             }});
+        }
+
+        if (findByEmail(user.getEmail()).isPresent()) {
+            throw new UserAlreadyExistsException(String.format("Failed to create new user. User with email %s already exists", user.getEmail()));
         }
 
         users.add(user);
