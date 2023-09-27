@@ -3,7 +3,7 @@ package org.example.validator;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.example.annotation.ValidDateRange;
-import org.example.dto.DateRange;
+import org.example.domain.DateRange;
 
 public class DateRangeValidator implements ConstraintValidator<ValidDateRange, DateRange> {
     @Override
