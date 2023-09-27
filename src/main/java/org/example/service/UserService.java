@@ -73,12 +73,12 @@ public class UserService {
      * Update all fields of user by email (including old email)
      */
     public User updateWholeUser(User user, String email) {
-        if (findByEmail(user.getEmail()).isEmpty()) {
-            throw new UserNoContentException(String.format("Can't update user. User with email %s was not found", user.getEmail()));
+        if (findByEmail(email).isEmpty()) {
+            throw new UserNoContentException(String.format("Can't update user. User with email %s was not found", email));
         }
 
         // If new email already exists
-        if (!user.getEmail().equals(email) && findByEmail(email).isPresent()) {
+        if (!user.getEmail().equals(email) && findByEmail(user.getEmail()).isPresent()) {
             throw new ValidationException(String.format("User with email %s already exists", user.getEmail()));
         }
 

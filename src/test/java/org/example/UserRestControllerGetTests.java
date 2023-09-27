@@ -57,7 +57,7 @@ public class UserRestControllerGetTests extends AbstractTest {
     }
 
     @Test
-    @DisplayName("Should fail to find user by email because wrong email")
+    @DisplayName("Should fail to find user by email because user with this email does not exist")
     public void shouldDontFindUserByEmail() throws Exception {
         String emailOfUserToFind = "email@gmail.com";
         mvc.perform(MockMvcRequestBuilders

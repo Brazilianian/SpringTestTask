@@ -47,7 +47,7 @@ public class UserRestControllerPostTests extends AbstractTest {
     @DisplayName("Should to fail to create new user because the email is wrong")
     public void shouldToDontCreateUserBecauseWrongEmail() throws Exception {
         UserDto userDto = new UserDto(
-                "wrongemail", "name", "lastName", LocalDate.of(2000, 1, 1),
+                "wrongEmail", "name", "lastName", LocalDate.of(2000, 1, 1),
                 null, null);
         String inputJson = super.mapToJson(userDto);
         mvc.perform(MockMvcRequestBuilders.post(ENDPOINT_PATH)
