@@ -16,7 +16,7 @@ import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class JavaRestControllerPostTests extends AbstractTest {
+public class UserRestControllerPostTests extends AbstractTest {
 
     @Override
     @Before
