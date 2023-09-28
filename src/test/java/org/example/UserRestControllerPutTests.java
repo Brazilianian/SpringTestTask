@@ -26,8 +26,8 @@ public class UserRestControllerPutTests extends AbstractTest {
     private static final String ENDPOINT_PATH = "/api/v1/users";
 
     @Test
-    @DisplayName("Should to update user info")
-    public void shouldToUpdateUser() throws Exception {
+    @DisplayName("Should update user")
+    public void shouldUpdateUser() throws Exception {
         UserDto userDto = new UserDto("email3@gmail.com", "newFirstName", "newLastName", LocalDate.of(2000, 1, 1),
                 null, null);
 
@@ -49,8 +49,8 @@ public class UserRestControllerPutTests extends AbstractTest {
     }
 
     @Test
-    @DisplayName("Should to fail to update user because wrong email")
-    public void shouldToFailToUpdateUserBecauseWrongEmail() throws Exception {
+    @DisplayName("Should fail to update user when email is wrong")
+    public void shouldFailToUpdateUserWhenEmailIsWrong() throws Exception {
         UserDto userDto = new UserDto("emailDoesNotExist@gmail.com", "newFirstName", "newLastName", LocalDate.of(2000, 1, 1),
                 null, null);
 
@@ -63,8 +63,8 @@ public class UserRestControllerPutTests extends AbstractTest {
     }
 
     @Test
-    @DisplayName("Should to update all user info (including email)")
-    public void shouldToUpdateUserAllFields() throws Exception {
+    @DisplayName("Should update all user fields")
+    public void shouldUpdateAllUserFields() throws Exception {
         UserDto userDto = new UserDto("email@gmail.com", "newFirstName", "newLastName", LocalDate.of(2000, 1, 1),
                 null, null);
         String emailOfUserToUpdate = "email3@gmail.com";
@@ -91,8 +91,8 @@ public class UserRestControllerPutTests extends AbstractTest {
     }
 
     @Test
-    @DisplayName("Should to fail update all user info because user age to less than")
-    public void shouldToFailUpdateUserAllFieldsBecauseAge() throws Exception {
+    @DisplayName("Should fail to update all user fields when user age less than")
+    public void shouldFailToUpdateAllUserFieldsWhenUserAgeLessThan() throws Exception {
         UserDto userDto = new UserDto("email@gmail.com", "newFirstName", "newLastName", LocalDate.of(2020, 1, 1),
                 null, null);
         String emailOfUserToUpdate = "email2@gmail.com";
@@ -107,8 +107,8 @@ public class UserRestControllerPutTests extends AbstractTest {
     }
 
     @Test
-    @DisplayName("Should to fail update all user info because user was not found")
-    public void shouldToFailUpdateUserAllFieldsBecauseWrongEmail() throws Exception {
+    @DisplayName("Should fail to update all user fields when user was not found")
+    public void shouldFailToUpdateAllUserFieldsWhenUserWasNotFound() throws Exception {
         UserDto userDto = new UserDto("email@gmail.com", "newFirstName", "newLastName", LocalDate.of(2020, 1, 1),
                 null, null);
         String emailOfUserToUpdate = "emailDoesNotExist@gmail.com";

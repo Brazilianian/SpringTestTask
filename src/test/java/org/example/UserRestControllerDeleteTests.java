@@ -18,8 +18,8 @@ public class UserRestControllerDeleteTests extends AbstractTest {
     private static final String ENDPOINT_PATH = "/api/v1/users";
 
     @Test
-    @DisplayName("Should to delete user")
-    public void shouldToDeleteUser() throws Exception {
+    @DisplayName("Should delete user")
+    public void shouldDeleteUser() throws Exception {
         String emailOfUserToDelete = "email1@gmail.com";
 
         mvc.perform(MockMvcRequestBuilders

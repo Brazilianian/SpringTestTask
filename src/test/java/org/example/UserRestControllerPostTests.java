@@ -44,8 +44,8 @@ public class UserRestControllerPostTests extends AbstractTest {
     }
 
     @Test
-    @DisplayName("Should to fail to create new user because the email is wrong")
-    public void shouldToDontCreateUserBecauseWrongEmail() throws Exception {
+    @DisplayName("Should fail to create user when email is wrong")
+    public void shouldFailToCreateUserWhenEmailIsWrong() throws Exception {
         UserDto userDto = new UserDto(
                 "wrongEmail", "name", "lastName", LocalDate.of(2000, 1, 1),
                 null, null);
@@ -58,8 +58,8 @@ public class UserRestControllerPostTests extends AbstractTest {
     }
 
     @Test
-    @DisplayName("Should to fail to create new user because the email already exists")
-    public void shouldToDontCreateUserBecauseEmailAlreadyExists() throws Exception {
+    @DisplayName("Should fail to create new user when email already exists")
+    public void shouldFailToCreateNewUserWhenEmailAlreadyExists() throws Exception {
         UserDto userDto = new UserDto(
                 "email1@gmail.com", "name", "lastName", LocalDate.of(2000, 1, 1),
                 null, null);
@@ -72,8 +72,8 @@ public class UserRestControllerPostTests extends AbstractTest {
     }
 
     @Test
-    @DisplayName("Should to fail to create new user because first name, last name, birthday fields are blank")
-    public void shouldToDontCreateUserBecauseFieldsAreBlank() throws Exception {
+    @DisplayName("Should fail to create new user when first name or last name or birthday are blank")
+    public void shouldFailToCreateNewUserWhenFirstNameOrLastNameOrBirthdayAreBlank() throws Exception {
         UserDto userDto = new UserDto(
                 "email@gmail.com", "", null, null,
                 null, null);
@@ -91,8 +91,8 @@ public class UserRestControllerPostTests extends AbstractTest {
     }
 
     @Test
-    @DisplayName("Should to fail to create user because birthday date must be earlier than current date")
-    public void shouldToFailToCreateUserBecauseWrongBirthday() throws Exception {
+    @DisplayName("Should fail to create user when birthday later than current date")
+    public void shouldFailToCreateUserWhenBirthdayLaterThanCurrentDate() throws Exception {
         UserDto userDto = new UserDto(
                 "email@gmail.com", "name", "lastName", LocalDate.of(2025, 1, 1),
                 null, null);
@@ -106,8 +106,8 @@ public class UserRestControllerPostTests extends AbstractTest {
     }
 
     @Test
-    @DisplayName("Should to fail to create user because age of user must be less than")
-    public void shouldToFailToCreateUserBecauseAgeOfUser() throws Exception {
+    @DisplayName("Should fail to create user when age less than")
+    public void shouldFailToCreateUserWhenAgeLessThan() throws Exception {
         UserDto userDto = new UserDto(
                 "email@gmail.com", "name", "lastName", LocalDate.of(2018, 1, 1),
                 null, null);

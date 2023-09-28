@@ -58,8 +58,8 @@ public class UserRestControllerGetTests extends AbstractTest {
     }
 
     @Test
-    @DisplayName("Should fail to find user by email because user with this email does not exist")
-    public void shouldDontFindUserByEmail() throws Exception {
+    @DisplayName("Should dont find user by email when email does not exist")
+    public void shouldDontFindUserByEmailWhenEmailDoesNotExist() throws Exception {
         String emailOfUserToFind = "email@gmail.com";
         mvc.perform(MockMvcRequestBuilders
                         .get(ENDPOINT_PATH + "/email/" + emailOfUserToFind)
@@ -68,7 +68,7 @@ public class UserRestControllerGetTests extends AbstractTest {
     }
 
     @Test
-    @DisplayName("Should find users by birthday date range")
+    @DisplayName("Should find users by birthday range")
     public void shouldFindUsersByBirthdayRange() throws Exception {
         BirthdayFilterDto birthdayFilterDto = new BirthdayFilterDto(new DateRange(
                 LocalDate.of(2000, 1, 1),
@@ -93,8 +93,8 @@ public class UserRestControllerGetTests extends AbstractTest {
     }
 
     @Test
-    @DisplayName("Should to fail to find users by birthday date range because wrong range")
-    public void shouldFailFindUsersByBirthdayRange() throws Exception {
+    @DisplayName("Should fail to find users by birthday range when range is wrong")
+    public void shouldFailToFindUsersByBirthdayRangeWhenRangeIsWrong() throws Exception {
         BirthdayFilterDto birthdayFilterDto = new BirthdayFilterDto(new DateRange(
                 LocalDate.of(2005, 1, 1),
                 LocalDate.of(2000, 1, 1)
